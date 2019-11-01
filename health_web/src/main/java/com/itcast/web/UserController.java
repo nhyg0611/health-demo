@@ -19,6 +19,7 @@ public class UserController {
     @RequestMapping("selectAll")
     public List<User>  selectAll(){
 
+        System.out.println("分支测试");
         return userService.selectAll();
     }
 }
