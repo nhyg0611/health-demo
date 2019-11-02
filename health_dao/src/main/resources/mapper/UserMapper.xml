@@ -4,7 +4,7 @@
 <mapper namespace="com.itcast.mapper.UserMapper">
 
     <select id="findAll" resultType="com.itcast.pojo.User">
-        select * from tb_user
+        select * from t_user
     </select>
 
 </mapper>
