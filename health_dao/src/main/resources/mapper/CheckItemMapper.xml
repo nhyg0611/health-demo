@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itcast.mapper.CheckItemMapper">
+
+<!--    添加检查项-->
+    <insert id="add">
+        insert into t_checkitem(code,name,sex,age,price,type,attention,remark)
+        values(#{code},#{name},#{sex},#{age},#{price},#{type},#{attention},#{remark})
+    </insert>
+
+    <!--    编辑更新检查项-->
+
+    <update id="updateCheckItem">
+        update t_checkitem set
+        code=#{code},name=#{name},
+        sex=#{sex},price=#{price},
+        type=#{type},attention=#{attention},
+        remark=#{remark},age=#{age} where id = #{id}
+    </update>
+
+<!--    删除检查项-->
+    <delete id="deleteCheck">
+        delete  from t_checkitem where id = #{id}
+    </delete>
+    <!--    分页查询检查项-->
+
+    <select id="pageCheckItem" resultType="com.itcast.pojo.CheckItem">
+
+        select * from t_checkitem
+        <if test="queryString !=null and queryString >0  ">
+            where code  like '%' #{queryString} '%'  or name like '%' #{queryString} '%'
+        </if>
+    </select>
+
+    <!--    根据id查询检查项-->
+
+    <select id="findCheckById" resultType="com.itcast.pojo.CheckItem">
+
+        select * from t_checkitem where id = #{id}
+    </select>
+</mapper>
