@@ -23,4 +23,8 @@ public interface CheckItemMapper {
     void updateCheckItem(CheckItem checkItem);
 
     void deleteCheck(@Param("id") Integer id);
+
+    Integer findRelationById(@Param("id")Integer id);
+
+    List<CheckItem> findAll();
 }

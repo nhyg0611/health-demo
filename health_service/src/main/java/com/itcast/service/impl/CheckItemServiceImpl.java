@@ -8,6 +8,7 @@ import com.itcast.pojo.CheckItem;
 import com.itcast.pojo.PageResult;
 import com.itcast.pojo.QueryPageBean;
 import com.itcast.service.CheckItemService;
+import exceptions.DeleteException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -74,10 +75,25 @@ public class CheckItemServiceImpl implements CheckItemService {
     /**
      * 根据id删除指定检查项
      * @param id 前端页面传递来的id属性
+     * @throws DeleteException  因为删除的过程中可能和在关联表中存在关联 所以要进行检查是否存在 在进行删除的操作
      */
     @Override
-    public void deleteCheck(Integer id) {
+    public void deleteCheck(Integer id) throws DeleteException {
 
-        checkItemMapper.deleteCheck(id);
+        Integer result = checkItemMapper.findRelationById(id);
+
+        if (result!=null &&result >0){
+            throw new DeleteException("存在关联无法进行删除");
+        }else {
+            checkItemMapper.deleteCheck(id);
+        }
+
+    }
+
+    @Override
+    public List<CheckItem> findAll() {
+
+
+        return checkItemMapper.findAll();
     }
 }

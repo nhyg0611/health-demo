@@ -3,7 +3,7 @@ package com.itcast.service;
 import com.itcast.pojo.CheckItem;
 import com.itcast.pojo.PageResult;
 import com.itcast.pojo.QueryPageBean;
-import org.apache.ibatis.annotations.Param;
+import exceptions.DeleteException;
 
 import java.util.List;
 
@@ -17,5 +17,7 @@ public interface CheckItemService {
 
     CheckItem findCheckById(Integer id);
 
-    void deleteCheck(Integer id);
+    void deleteCheck(Integer id) throws DeleteException;
+
+    List<CheckItem> findAll();
 }

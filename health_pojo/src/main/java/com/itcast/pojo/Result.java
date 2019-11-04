@@ -21,6 +21,24 @@ public class Result implements Serializable{
         this.data = data;
     }
 
+    //失败
+    public static Result error(String message){
+
+        return new Result(false,message);
+    }
+
+    //成功
+    public static Result success(String message,Object object){
+
+        return new Result(true,message,object);
+    }
+
+    public static Result success(String message){
+
+        return new Result(true,message);
+    }
+
+
     public boolean isFlag() {
         return flag;
     }

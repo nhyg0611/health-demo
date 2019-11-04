@@ -2,14 +2,13 @@ package com.itcast.web;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.github.pagehelper.Page;
-import com.github.pagehelper.PageHelper;
 import com.itcast.constant.MessageConstant;
 import com.itcast.pojo.CheckItem;
 import com.itcast.pojo.PageResult;
 import com.itcast.pojo.QueryPageBean;
 import com.itcast.pojo.Result;
 import com.itcast.service.CheckItemService;
+import exceptions.DeleteException;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -37,7 +36,7 @@ public class CheckItemController {
      * @return 前端接收的结果集
      */
     @RequestMapping("/add")
-    public Result addCheckItem(@RequestBody CheckItem checkItem){
+    public Result addCheckItem(@RequestBody CheckItem checkItem) {
 
         try {
             checkItemService.add(checkItem);
@@ -101,16 +100,35 @@ public class CheckItemController {
 
     }
 
+    /**
+     * 根据id进行删除的操作
+     * @param id
+     * @return
+     */
     @RequestMapping("/deletebyid")
-    public Result deleteCheckItem(Integer id){
+    public Result deleteCheckItem(Integer id) throws DeleteException {
 
         try {
             checkItemService.deleteCheck(id);
             return new Result(true, MessageConstant.DELETE_CHECKITEM_SUCCESS);
-        }catch (Exception e){
+        }catch (DeleteException e){
 
             return new Result(false,MessageConstant.DELETE_CHECKITEM_FAIL);
         }
+    }
+
+
+    @RequestMapping("/findall")
+    public Result findAllCheckItem(){
+
+        try {
+            List<CheckItem> list = checkItemService.findAll();
+            return Result.success("查询成功",list);
+        }catch (DeleteException e){
+
+            return Result.error("查询失败");
+        }
+
     }
 
 

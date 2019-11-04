@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.itcast.mapper.CheckGroupMapper">
+
+
+<!--    添加关联表中的信息-->
+    <insert id="addGroupRelation">
+
+        insert into t_checkgroup_checkitem(checkgroup_id,checkitem_id) values
+
+        <foreach collection="list" item="map" separator=",">
+            (#{map.checkgroup_id},#{map.checkitem_id})
+        </foreach>
+    </insert>
+
+<!--    记得开启主键回显 不然无法得到该主键-->
+    <insert id="addCheckGroup" useGeneratedKeys="true" keyProperty="id">
+
+        insert into t_checkgroup(code,name,helpCode,sex,remark,attention) values (
+        #{code},#{name},#{helpCode},#{sex},#{remark},#{attention}
+        )
+    </insert>
+
+<!--    更新检查组的信息-->
+    <update id="editCheckGroup">
+        update  t_checkgroup set code=#{code},
+        name=#{name},
+        helpCode=#{helpCode},
+        sex=#{sex},
+        attention=#{attention},
+        remark=#{remark} where id =#{id}
+    </update>
+
+<!--    根据检查组id删除 对应的检查项信息-->
+    <delete id="deleteItems">
+        delete from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </delete>
+
+<!--    根据id删除指定的检查组-->
+    <delete id="deleteCheckGroup">
+
+        delete from t_checkgroup where id =#{id}
+    </delete>
+
+    <!--    根据条件进行分页查询-->
+    <select id="queryPage" resultType="com.itcast.pojo.CheckGroup">
+        select * from t_checkgroup
+        <if test="queryString !=null and queryString.length() >0  ">
+            where code  like '%' #{queryString} '%'  or name like '%' #{queryString} '%'
+        </if>
+    </select>
+
+<!--    根据id查询组别-->
+    <select id="findGroupById" resultType="com.itcast.pojo.CheckGroup">
+
+        select * from t_checkgroup where id = #{id}
+    </select>
+
+<!--    根据组别id查询 对应的检查项 id集合-->
+    <select id="findItemsById" resultType="java.lang.Integer">
+        select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{id}
+    </select>
+</mapper>
