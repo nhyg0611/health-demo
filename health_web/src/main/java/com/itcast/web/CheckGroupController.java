@@ -2,10 +2,7 @@ package com.itcast.web;
 
 
 import com.alibaba.dubbo.config.annotation.Reference;
-import com.itcast.pojo.CheckGroup;
-import com.itcast.pojo.PageResult;
-import com.itcast.pojo.QueryPageBean;
-import com.itcast.pojo.Result;
+import com.itcast.pojo.*;
 import com.itcast.service.CheckGroupService;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -101,5 +98,18 @@ public class CheckGroupController {
 
             return Result.error("删除失败");
         }
+    }
+
+    @RequestMapping("/findall")
+    public Result findAllCheckGroup(){
+        try {
+            List<CheckGroup> all = checkGroupService.findAll();
+            return Result.success("查询成功",all);
+
+        }catch (Exception e){
+
+            return Result.error("删除失败");
+        }
+
     }
 }

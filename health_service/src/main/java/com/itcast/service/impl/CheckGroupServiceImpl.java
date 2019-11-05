@@ -155,4 +155,11 @@ public class CheckGroupServiceImpl implements CheckGroupService {
 
         checkGroupMapper.deleteCheckGroup(id);
     }
+
+
+    @Override
+    public List<CheckGroup> findAll() {
+
+        return checkGroupMapper.findAll();
+    }
 }

@@ -24,12 +24,28 @@
 
 <!--    更新检查组的信息-->
     <update id="editCheckGroup">
-        update  t_checkgroup set code=#{code},
-        name=#{name},
-        helpCode=#{helpCode},
-        sex=#{sex},
-        attention=#{attention},
-        remark=#{remark} where id =#{id}
+        update  t_checkgroup
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="sex != null">
+                sex = #{sex},
+            </if>
+            <if test="code != null">
+                code = #{code},
+            </if>
+            <if test="helpCode != null">
+                helpCode = #{helpCode},
+            </if>
+            <if test="attention != null">
+                attention = #{attention},
+            </if>
+            <if test="remark != null">
+                remark = #{remark},
+            </if>
+        </set>
+        where id =#{id}
     </update>
 
 <!--    根据检查组id删除 对应的检查项信息-->
@@ -61,4 +77,8 @@
     <select id="findItemsById" resultType="java.lang.Integer">
         select checkitem_id from t_checkgroup_checkitem where checkgroup_id = #{id}
     </select>
+
+    <select id="findAll" resultType="com.itcast.pojo.CheckGroup">
+     select * from t_checkgroup
+</select>
 </mapper>
