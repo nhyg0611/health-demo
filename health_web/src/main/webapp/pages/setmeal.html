@@ -255,6 +255,12 @@
                     //response.data 文件名
                     this.imageUrl = "http://q0h1ykzsg.bkt.clouddn.com/" + response.data;
                     //动态给formData赋值等会儿提交数据会带上上传图片的名称（不要存完整的url，只要存文件名）
+
+                    //每种请求返回的数据json格式不一样  可以先进行控制台的打印 在决定如何使用
+                    this.$message({
+                        message: response.message,
+                        type: response.flag ? 'success' : 'error'
+                    });
                     this.formData.img = response.data;
                 },
                 //上传图片之前执行

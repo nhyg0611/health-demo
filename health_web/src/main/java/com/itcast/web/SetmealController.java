@@ -30,7 +30,7 @@ public class SetmealController {
 
     /**
      * 上传图片
-     * @param imgFile
+     * @param imgFile 文件上传特有属性 在dispatcherServlet中写死了
      * @return
      */
     @RequestMapping("/upload")
@@ -42,6 +42,7 @@ public class SetmealController {
 
             int i = originalFilename.lastIndexOf(".");
 
+            //文件的后缀
             String suffix = originalFilename.substring(i);
 
             //截取过后的新文件名
@@ -49,7 +50,7 @@ public class SetmealController {
 
             //使用工具类进行上传的操作
             QiniuUtil.upload(imgFile.getBytes(),newfilename);
-            //并且把当前文件保存在在redis当中
+            //把当前点击的图片 添加到 点击到的缓存当中去
             jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_RESOURCES,newfilename);
 
             return Result.success("上传成功",newfilename);
@@ -58,11 +59,18 @@ public class SetmealController {
         }
     }
 
+    /**
+     * 添加套餐的方法
+     * @param setmeal   前端传递来的套餐信息
+     * @return  结果集 是否添加成功
+     */
     @RequestMapping("/add")
     public Result  addSetmeal(@RequestBody Setmeal setmeal){
 
         try {
+            //首先在数据库中进行 数据的添加
             setmealService.addSetmeal(setmeal);
+            //在添加成功的缓存中 保存当前的图片信息
             jedisPool.getResource().sadd(RedisConstant.SETMEAL_PIC_DB_RESOURCES,setmeal.getImg());
             return Result.success("添加成功");
         }catch (Exception e){
@@ -72,6 +80,11 @@ public class SetmealController {
 
     }
 
+    /**
+     * 分页的操作
+     * @param queryPageBean 分页信息对象
+     * @return  返回分页的总记录数 以及所需要的集合信息
+     */
     @RequestMapping("/findpage")
     public PageResult setmealPage(@RequestBody QueryPageBean queryPageBean){
 

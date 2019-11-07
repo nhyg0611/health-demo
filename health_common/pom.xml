@@ -137,5 +137,11 @@
             <artifactId>hutool-all</artifactId>
         </dependency>
 
+<!--        谷歌工具类-->
+        <dependency>
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>28.1-jre</version>
+        </dependency>
     </dependencies>
 </project>

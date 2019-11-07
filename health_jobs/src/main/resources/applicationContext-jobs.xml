@@ -28,7 +28,7 @@
         <!--        要触发那个任务-->
         <property name="jobDetail" ref="jobDetail"></property>
         <!--        什么时候干-->
-        <property name="cronExpression" value="*/5 10 * * * ?"></property>
+        <property name="cronExpression" value="0/10 * * * * ?"></property>
         <!--        <property name="cronExpression" value="0 0 2 * * ?"></property>-->
     </bean>
 

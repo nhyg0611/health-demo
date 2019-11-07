@@ -24,7 +24,10 @@ public class SetmealServiceImpl implements SetmealService {
     @Autowired
     private SetmealMapper setmealMapper;
 
-
+    /**
+     * 添加套餐的方法
+     * @param setmeal   封装套餐数据
+     */
     @Override
     public void addSetmeal(Setmeal setmeal) {
 
@@ -32,9 +35,11 @@ public class SetmealServiceImpl implements SetmealService {
         setmealMapper.addSetmeal(setmeal);
         //通过主键回显来 的到该套餐的id值 然后进行关联表的建立连接的操作
         Integer setmealId = setmeal.getId();
+        //前端传递来的 检查组id集合
         List<Integer> checkgroupIds = setmeal.getCheckgroupIds();
         List<Map> params = new ArrayList<>();
 
+        //进行组合拼接插入
         for (Integer checkgroupId : checkgroupIds) {
             Map map = new HashMap();
             map.put("setmeal_id",setmealId);
@@ -45,6 +50,11 @@ public class SetmealServiceImpl implements SetmealService {
         setmealMapper.addSetmealAndCheckGroupRelation(params);
     }
 
+    /**
+     * 分页数据
+     * @param queryPageBean 分页数据对象
+     * @return  分页信息
+     */
     @Override
     public PageResult findPage(QueryPageBean queryPageBean) {
 
